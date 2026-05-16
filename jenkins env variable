@@ -33,6 +33,11 @@ pipeline{
                 echo "Publishing test reports and path is ${Test_Report_Dir}"
 
             }
+            scripts{
+                timeout(time: 5, unit: 'MINUTES') {
+                input message: 'Do you want to Deploy the Code?', ok: 'Yes, Run the tests'
+                }
+            }
         }
     }
 }
