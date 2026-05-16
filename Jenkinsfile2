@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+
+    parameters{
+        choice(name: ENV, choices: ['', 'Dev','Test'],description: 'Select env to build')
+    }
+    stages{
+        stage('Build on Dev'){
+            when{
+                expression {
+                    params.ENV == 'Dev'
+                }
+            }
+            stage{
+                echo "Building on Dev Environment"
+                git 'https://github.com/rakeshr6/DevOpsCodeDemo.git'
+                sh 'mvn pmd:pmd'
+                sh 'mvn package'
+            }
+        }
+        stage('Build on test ENV'){
+            when{
+                expression{
+                    params.ENV == 'Test'
+                }
+            }
+            steps{
+                echo "Building on Test Environment"
+                git 'https://github.com/rakeshr6/DevOpsCodeDemo.git'
+                sh 'mvn pmd:pmd'
+                sh 'mvn package'
+            }
+        }
+    }
+}
