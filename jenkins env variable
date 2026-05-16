@@ -1,0 +1,38 @@
+pipeline{
+    agent any
+
+    tools{
+        maven 'mymaven'
+    }
+    environment{
+        AppName = 'AddressBookApp'
+        Build_Env = 'Dev'
+    }
+    stages{
+        stage('checkout code'){
+            steps{
+                echo "Checking out from Github for ${AppName} in ${Build_Env} environment"
+                git 'https://github.com/rakeshr6/DevOpsCodeDemo.git'
+
+            }
+        }
+        stage('build'){
+            steps{
+                echo "Building the app ${AppName} using Maven"
+                sh 'mvn package'
+            }
+        }
+        stage('test'){
+            environment{
+                Test_Type = 'Smoke'
+                Test_Report_Dir = 'target/surefire-reports'
+            }
+            steps{
+                echo "Running ${Test_Type} for tests ${AppName} in ${Build_Env} environment"
+                sh 'mvn test'
+                echo "Publishing test reports and path is ${Test_Report_Dir}"
+
+            }
+        }
+    }
+}
