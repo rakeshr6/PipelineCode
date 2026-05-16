@@ -1,0 +1,77 @@
+// Use // To write comment, it is not a code , it is just description. it will not be execut
+// all the code is written in between the pipeline{}
+
+pipeline{
+
+    agent{
+        This is a mndatory section
+        name of the VM/server/windows/mac where the pipeline has to be executed
+        Pipeline can also be executed on the smae EC2 server where Jenkins is installated
+
+    }
+
+    tools{
+
+        This is not mandatory
+        If pipeline has to use specific version of any of the tools
+        Mention the name of the tool that has been configured in the settings-tools section of
+        exmaple: mymaven
+    }
+
+    triggers{
+
+        This is not mandatory
+        We can setup triggers directly on the pipeline job, just like we did in freestyle.
+        OR you can write code for POLLSCM and preodic trigger
+    }
+
+    parameters{
+
+        // Variables that store some data
+        // They allow us to run the pipeline with different sets of data
+        // this data can be passed when executed the pipeline
+        // Parameterized pipeline
+    }
+
+    environment{
+
+        // not mandatory
+        // creates environment variables
+        //stores data to be used within this pipeline.
+    }
+
+    stages{
+
+        // this is the main section of pipeline
+        // This is mandatory section
+        // stages section consist of stage
+        // the stage are jobs to be executed
+        // they are executed in sequence
+        // Can also be exeucted in parallel
+
+        stage("Job1"){
+            // This is mandatory section
+
+            steps{
+            // This is mandatory section
+            // here we write the commands. scripts to be executed
+            }
+        }
+
+        stage("Job2"){
+
+            steps{
+            eg:mvn pmd:pmd
+            Write any commands or script
+            }
+            post{
+                success{
+                //commands to be exeucted after the steps have been completed
+                }
+                failure{
+                //commands to be exeucted after the steps have been completed
+                }
+            }
+        }
+    }
+}
