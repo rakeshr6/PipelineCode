@@ -32,13 +32,13 @@ pipeline{
                 // buildResult : is the result of the build
                 // Though the stage may fail, the build will be successful and the next stage will execute
 
-                catchError(buildResult: 'Success', stageResult: 'FAILURE' ) {
+                catchError(buildResult: 'SUCESS', stageResult: 'FAILURE' ) {
 
                     sh 'mn compile' // risky code - code that may fail
                     echo "Running ${Test_Type} for tests ${AppName} in ${Build_Env} environment"
                     sh 'mvn test'
                     echo "Publishing test reports and path is ${Test_Report_Dir}"
-                    
+
                 }
 
             }
