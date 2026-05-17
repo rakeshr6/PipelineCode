@@ -1,0 +1,34 @@
+pipeline{
+    agent any
+
+    stages{
+        stage('Test Code'){
+            steps{
+                script{
+                    int maxRetries = 3
+                    int retries = 0
+                    boolean success = false
+                    // here success = false means that the code has not been exeucted successfully, so retry
+                    hile(!success && retries < maxRetries)
+                    {
+                        try{
+                            sh 'mn test' //
+                            success = true
+                            // if the code executes successfully, set success to true to exit the loop
+                        }
+                        catch(Exception e){
+                            retries++
+                            if(retries < maxRetries){
+                                echo "Retry ${retries} failed. Waiting before next retry ... ")
+                                sleep(time: 10 unit: 'SECONDS')
+                            }
+                        }
+                        if(!success){
+                            echo "All retries failed"
+                        }
+                    }
+                }
+            }   
+        }             
+    }
+}
